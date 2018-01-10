@@ -2,7 +2,7 @@ use v6.c;
 
 class List::Util:ver<0.0.1> {
 
-    sub reduce(&block, *@args) is export {
+    our sub reduce(&block, *@args) is export {
         if @args > 1 {
             my $result = @args.shift;
             $result = block($result,@args.shift) while @args;
@@ -12,26 +12,26 @@ class List::Util:ver<0.0.1> {
             @args ?? @args[0] !! Nil
         }
     }
-    sub any(&block, *@args --> Bool:D) is export {
+    our sub any(&block, *@args --> Bool:D) is export {
         return True if block($_) for @args;
         False
     }
-    sub all(&block, *@args --> Bool:D) is export {
+    our sub all(&block, *@args --> Bool:D) is export {
         return False unless block($_) for @args;
         True
     }
-    sub none(&block, *@args --> Bool:D) is export {
+    our sub none(&block, *@args --> Bool:D) is export {
         return False if block($_) for @args;
         True
     }
-    sub notall(&block, *@args --> Bool:D) is export {
+    our sub notall(&block, *@args --> Bool:D) is export {
         return True unless block($_) for @args;
         False
     }
-    sub first(&block, *@args) is raw is export { @args.first(&block) }
+    our sub first(&block, *@args) is raw is export { @args.first(&block) }
 
-    sub max(*@args) is export {
-        if @args > 2 {
+    our sub max(*@args) is export {
+        if @args > 1 {
             my $result = @args.shift;
             my $value;
             $result = $value if ($value := @args.shift) > $result while @args;
@@ -41,8 +41,8 @@ class List::Util:ver<0.0.1> {
             @args ?? @args.shift !! Nil
         }
     }
-    sub maxstr(*@args) is export {
-        if @args > 2 {
+    our sub maxstr(*@args) is export {
+        if @args > 1 {
             my $result = @args.shift;
             my $value;
             $result = $value if ($value := @args.shift) gt $result while @args;
@@ -52,8 +52,8 @@ class List::Util:ver<0.0.1> {
             @args ?? @args.shift !! Nil
         }
     }
-    sub min(*@args) is export {
-        if @args > 2 {
+    our sub min(*@args) is export {
+        if @args > 1 {
             my $result = @args.shift;
             my $value;
             $result = $value if ($value := @args.shift) < $result while @args;
@@ -63,8 +63,8 @@ class List::Util:ver<0.0.1> {
             @args ?? @args.shift !! Nil
         }
     }
-    sub minstr(*@args) is export {
-        if @args > 2 {
+    our sub minstr(*@args) is export {
+        if @args > 1 {
             my $result = @args.shift;
             my $value;
             $result = $value if ($value := @args.shift) lt $result while @args;
@@ -74,11 +74,11 @@ class List::Util:ver<0.0.1> {
             @args ?? @args.shift !! Nil
         }
     }
-    sub product(*@args) is export { [*] @args }
-    sub sum(*@args) is export { @args ?? @args.sum !! Nil }
-    sub sum0(*@args) is export { @args.sum }
+    our sub product(*@args) is export { [*] @args }
+    our sub sum(*@args) is export { @args ?? @args.sum !! Nil }
+    our sub sum0(*@args) is export { @args.sum }
 
-    class P5Pair is Pair does Iterable {
+    my class P5Pair is Pair does Iterable {
         method AT-POS($got) is raw {
             $got
               ?? $got == 1
@@ -87,28 +87,28 @@ class List::Util:ver<0.0.1> {
               !! self.key
         }
     }
-    sub pairs(*@args) is export {
+    our sub pairs(*@args) is export {
         my @result;
         @result.push(P5Pair.new(@args.shift, @args ?? @args.shift !! Nil))
           while @args;
         @result.List
     }
-    sub unpairs(*@args) is export { @args.map( { |(.key, .value) } ).List }
-    sub pairkeys(*@args) is export { @args.map(*.key).List }
-    sub pairvalues(*@args) is export { @args.map(*.value).List }
-    sub pairgrep(&block, *@args) is export {
+    our sub unpairs(*@args) is export { @args.map( { |(.key, .value) } ).List }
+    our sub pairkeys(*@args) is export { @args.map(*.key).List }
+    our sub pairvalues(*@args) is export { @args.map(*.value).List }
+    our sub pairgrep(&block, *@args) is export {
         @args.grep( { block(.key,.value) } ).List
     }
-    sub pairmap(&block, *@args) is export {
+    our sub pairmap(&block, *@args) is export {
         @args.map( { block(.key,.value) } ).List
     }
 
-    sub shuffle(*@args) is export { @args.pick(*).List }
-    sub uniq(*@args) is export {
+    our sub shuffle(*@args) is export { @args.pick(*).List }
+    our sub uniq(*@args) is export {
         @args.unique(:as( { .defined ?? .Str !! $_ } )).List
     }
-    sub uniqnum(*@args) is export { @args.map(*.Numeric).unique.List }
-    sub uniqstr(*@args) is export { @args.map(*.Str).unique.List }
+    our sub uniqnum(*@args) is export { @args.map(*.Numeric).unique.List }
+    our sub uniqstr(*@args) is export { @args.map(*.Str).unique.List }
 }
 
 sub EXPORT(*@args) {
