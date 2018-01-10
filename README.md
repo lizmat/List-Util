@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lizmat/List-Util.svg?branch=master)](https://travis-ci.org/lizmat/List-Util)
+
 NAME
 ====
 
@@ -148,7 +150,7 @@ Returns the entry in the list with the highest numerical value. If the list is e
 
     $foo = max 1..10;         # 10
     $foo = max 3,9,12;        # 12
-    $foo = max |@bar, |@baz;  # multiple arrays must be explicitely flattened
+    $foo = max @bar, @baz;    # whatever
 
 maxstr
 ------
@@ -159,7 +161,7 @@ Similar to [/max](/max), but treats all the entries in the list as strings and r
 
     $foo = maxstr 'A'..'Z';         # 'Z'
     $foo = maxstr "hello","world";  # "world"
-    $foo = maxstr |@bar, |@baz;     # multiple arrays must be explicitely flattened
+    $foo = maxstr @bar, @baz;       # whatever
 
 min
 ---
@@ -170,7 +172,7 @@ Similar to [/max](/max) but returns the entry in the list with the lowest numeri
 
     $foo = min 1..10;               # 1
     $foo = min 3,9,12;              # 3
-    $foo = min |@bar, |@baz;  # multiple arrays must be explicitely flattened
+    $foo = min @bar, @baz;          # whatever
 
 minstr
 ------
@@ -181,7 +183,7 @@ Similar to [/min](/min), but treats all the entries in the list as strings and r
 
     $foo = minstr 'A'..'Z';         # 'A'
     $foo = minstr "hello","world";  # "hello"
-    $foo = minstr |@bar, |@baz;     # multiple arrays must be explicitely flattened
+    $foo = minstr @bar, @baz;       # whatever
 
 product
 -------
@@ -202,7 +204,7 @@ Returns the numerical sum of all the elements in `@list`. For backwards compatib
 
     $foo = sum 1..10;               # 55
     $foo = sum 3,9,12;              # 24
-    $foo = sum |@bar, |@baz;        # multiple arrays must be explicitely flattened
+    $foo = sum @bar, @baz;          # whatever
 
 sum0
 ----
@@ -393,7 +395,7 @@ uniqstr
 
 Filters a list of values to remove subsequent duplicates, as judged by a string equality test. Preserves the order of unique elements, and retains the first value of any duplicate set.
 
-Note that type objects aretreated much as other string operations treat it; it compares equal to the empty string but additionally produces a warning. In addition, a type object in the returned list is coerced into an empty string, so that the entire list of values returned by `uniqstr` are well-behaved as Str.
+Note that type objects are treated much as other string operations treat it; it compares equal to the empty string but additionally produces a warning. In addition, a type object in the returned list is coerced into an empty string, so that the entire list of values returned by `uniqstr` are well-behaved as Str.
 
 SEE ALSO
 ========

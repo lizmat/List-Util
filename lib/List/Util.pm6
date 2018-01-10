@@ -2,6 +2,82 @@ use v6.c;
 
 class List::Util:ver<0.0.1> {
 
+    sub reduce(&block, *@args) is export {
+        if @args > 1 {
+            my $result = @args.shift;
+            $result = block($result,@args.shift) while @args;
+            $result
+        }
+        else {
+            @args ?? @args[0] !! Nil
+        }
+    }
+    sub any(&block, *@args --> Bool:D) is export {
+        return True if block($_) for @args;
+        False
+    }
+    sub all(&block, *@args --> Bool:D) is export {
+        return False unless block($_) for @args;
+        True
+    }
+    sub none(&block, *@args --> Bool:D) is export {
+        return False if block($_) for @args;
+        True
+    }
+    sub notall(&block, *@args --> Bool:D) is export {
+        return True unless block($_) for @args;
+        False
+    }
+    sub first(&block, *@args) is raw is export { @args.first(&block) }
+
+    sub max(*@args) is export {
+        if @args > 2 {
+            my $result = @args.shift;
+            my $value;
+            $result = $value if ($value := @args.shift) > $result while @args;
+            $result
+        }
+        else {
+            @args ?? @args.shift !! Nil
+        }
+    }
+    sub maxstr(*@args) is export {
+        if @args > 2 {
+            my $result = @args.shift;
+            my $value;
+            $result = $value if ($value := @args.shift) gt $result while @args;
+            $result
+        }
+        else {
+            @args ?? @args.shift !! Nil
+        }
+    }
+    sub min(*@args) is export {
+        if @args > 2 {
+            my $result = @args.shift;
+            my $value;
+            $result = $value if ($value := @args.shift) < $result while @args;
+            $result
+        }
+        else {
+            @args ?? @args.shift !! Nil
+        }
+    }
+    sub minstr(*@args) is export {
+        if @args > 2 {
+            my $result = @args.shift;
+            my $value;
+            $result = $value if ($value := @args.shift) lt $result while @args;
+            $result
+        }
+        else {
+            @args ?? @args.shift !! Nil
+        }
+    }
+    sub product(*@args) is export { [*] @args }
+    sub sum(*@args) is export { @args ?? @args.sum !! Nil }
+    sub sum0(*@args) is export { @args.sum }
+
     class P5Pair is Pair does Iterable {
         method AT-POS($got) is raw {
             $got
@@ -11,6 +87,28 @@ class List::Util:ver<0.0.1> {
               !! self.key
         }
     }
+    sub pairs(*@args) is export {
+        my @result;
+        @result.push(P5Pair.new(@args.shift, @args ?? @args.shift !! Nil))
+          while @args;
+        @result.List
+    }
+    sub unpairs(*@args) is export { @args.map( { |(.key, .value) } ).List }
+    sub pairkeys(*@args) is export { @args.map(*.key).List }
+    sub pairvalues(*@args) is export { @args.map(*.value).List }
+    sub pairgrep(&block, *@args) is export {
+        @args.grep( { block(.key,.value) } ).List
+    }
+    sub pairmap(&block, *@args) is export {
+        @args.map( { block(.key,.value) } ).List
+    }
+
+    sub shuffle(*@args) is export { @args.pick(*).List }
+    sub uniq(*@args) is export {
+        @args.unique(:as( { .defined ?? .Str !! $_ } )).List
+    }
+    sub uniqnum(*@args) is export { @args.map(*.Numeric).unique.List }
+    sub uniqstr(*@args) is export { @args.map(*.Str).unique.List }
 }
 
 sub EXPORT(*@args) {
@@ -98,11 +196,10 @@ The following set of functions all reduce a list down to a single value.
 
     $result = reduce -> $a, $b { BLOCK }, @list;
 
-Reduces C<@list> by calling C<BLOCK> multiple times,
-setting C<$a> and C<$b> each time. The first call will be with C<$a> and C<$b>
-set to the first two elements of the list, subsequent calls will be done by
-setting C<$a> to the result of the previous call and C<$b> to the next element
-in the list.
+Reduces C<@list> by calling C<BLOCK> multiple times, setting C<$a> and C<$b>
+each time. The first call will be with C<$a> and C<$b> set to the first two
+elements of the list, subsequent calls will be done by setting C<$a> to the
+result of the previous call and C<$b> to the next element in the list.
 
 Returns the result of the last call to the C<BLOCK>. If C<@list> is empty then
 C<Nil> is returned. If C<@list> only contains one element then that element
@@ -212,7 +309,7 @@ empty then C<Nil> is returned.
 
     $foo = max 1..10;         # 10
     $foo = max 3,9,12;        # 12
-    $foo = max |@bar, |@baz;  # multiple arrays must be explicitely flattened
+    $foo = max @bar, @baz;    # whatever
 
 =head2 maxstr
 
@@ -224,7 +321,7 @@ empty then C<Nil> is returned.
 
     $foo = maxstr 'A'..'Z';         # 'Z'
     $foo = maxstr "hello","world";  # "world"
-    $foo = maxstr |@bar, |@baz;     # multiple arrays must be explicitely flattened
+    $foo = maxstr @bar, @baz;       # whatever
 
 =head2 min
 
@@ -235,7 +332,7 @@ value. If the list is empty then C<Nil> is returned.
 
     $foo = min 1..10;               # 1
     $foo = min 3,9,12;              # 3
-    $foo = min |@bar, |@baz;  # multiple arrays must be explicitely flattened
+    $foo = min @bar, @baz;          # whatever
 
 =head2 minstr
 
@@ -247,7 +344,7 @@ empty then C<Nil> is returned.
 
     $foo = minstr 'A'..'Z';         # 'A'
     $foo = minstr "hello","world";  # "hello"
-    $foo = minstr |@bar, |@baz;     # multiple arrays must be explicitely flattened
+    $foo = minstr @bar, @baz;       # whatever
 
 =head2 product
 
@@ -268,7 +365,7 @@ compatibility, if C<@list> is empty then C<Nil> is returned.
 
     $foo = sum 1..10;               # 55
     $foo = sum 3,9,12;              # 24
-    $foo = sum |@bar, |@baz;        # multiple arrays must be explicitely flattened
+    $foo = sum @bar, @baz;          # whatever
 
 =head2 sum0
 
@@ -489,7 +586,7 @@ Filters a list of values to remove subsequent duplicates, as judged by a
 string equality test. Preserves the order of unique elements, and retains the
 first value of any duplicate set.
 
-Note that type objects aretreated much as other string operations treat it; it
+Note that type objects are treated much as other string operations treat it; it
 compares equal to the empty string but additionally produces a warning.
 In addition, a type object in the returned list is coerced into an empty string,
 so that the entire list of values returned by C<uniqstr> are well-behaved as Str.
