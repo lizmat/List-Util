@@ -9,7 +9,6 @@
   "name" : "List::Util",
   "perl" : "6.c",
   "provides" : {
-    "Exporter" : "lib/Exporter.pm6",
     "List::Util" : "lib/List/Util.pm6"
   },
   "resources" : [ ],
