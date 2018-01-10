@@ -1,8 +1,18 @@
+use v6.c;
+
 use List::Util <pairgrep pairfirst pairmap pairs unpairs pairkeys pairvalues>;
 
 use Test;
 
-plan 19;
+plan 26;
+
+ok defined(&pairgrep),   'pairgrep defined';
+ok defined(&pairfirst),  'pairfirst defined';
+ok defined(&pairmap),    'pairmap defined';
+ok defined(&pairs),      'pairs defined';
+ok defined(&unpairs),    'unpairs defined';
+ok defined(&pairkeys),   'pairkeys defined';
+ok defined(&pairvalues), 'pairvalues defined';
 
 is-deeply
   pairgrep( -> $a, $b { $b % 2 }, <one 1 two 2 three 3>),
@@ -95,3 +105,5 @@ is-deeply pairvalues( <one 1 two 2> ), <1 2>, 'pairvalues';
       <A B C D>,
       'pairmap within pairmap';
 }
+
+# vim: ft=perl6 expandtab sw=4

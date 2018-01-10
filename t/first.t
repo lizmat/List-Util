@@ -1,10 +1,12 @@
+use v6.c;
+
 use List::Util <first>;
 use Test;
 
 plan 10;
 my $v is default(Nil);
 
-ok defined(&first),	'defined';
+ok defined(&first), 'first defined';
 
 $v = first { 8 == ($_ - 1) }, 9,4,5,6;
 is $v, 9, 'one more than 8';
@@ -36,5 +38,7 @@ is $v, 12, 'return from loop';
 
 # Does it work from another package?
 package Foo {
-  is List::Util::first({$_>4},1..4,24), 24, 'other package';
+    is List::Util::first({$_>4},1..4,24), 24, 'other package';
 }
+
+# vim: ft=perl6 expandtab sw=4

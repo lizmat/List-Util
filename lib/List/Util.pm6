@@ -6,7 +6,7 @@ class P5Pair is List {
     method value() is raw { self[1] }
 }
 
-class List::Util:ver<0.0.1> {
+class List::Util:ver<0.0.2> {
 
     our sub reduce(&block, *@args) is export {
         if @args > 1 {
@@ -149,8 +149,12 @@ class List::Util:ver<0.0.1> {
     our sub uniq(*@args) is export {
         @args.unique(:as( { .defined ?? .Str !! $_ } )).List
     }
-    our sub uniqnum(*@args) is export { @args.map(*.Numeric).unique.List }
-    our sub uniqstr(*@args) is export { @args.map(*.Str).unique.List }
+    our sub uniqnum(*@args) is export {
+        @args.map(*.Numeric).unique(:with(&infix:<==>)).List
+    }
+    our sub uniqstr(*@args) is export {
+        @args.map(*.Str).unique.List
+    }
 }
 
 sub EXPORT(*@args) {
@@ -638,6 +642,9 @@ L<Scalar::Util>, L<List::MoreUtils>
 =head1 AUTHOR
 
 Elizabeth Mattijsen <liz@wenzperl.nl>
+
+Source can be located at: https://github.com/lizmat/List-Util . Comments and
+Pull Requests are welcome.
 
 =head1 COPYRIGHT AND LICENSE
 

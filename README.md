@@ -3,7 +3,7 @@
 NAME
 ====
 
-List::Util - Port of Perl 5's List::Util
+List::Util - Port of Perl 5's List::Util 1.49
 
 SYNOPSIS
 ========
@@ -34,7 +34,7 @@ Perl 6 does not have a magic `$a` and `$b`. But they can be made to exist by spe
 
 Perl 6 also doesn't have a single `undef` value, but instead has `Type Objects`, which could be considered undef values, but with a type annotation.
 
-Perl 6 has real `Pair` objects, which in the Perl 5 version are mimiced by blessed arrays that have a `.key` and `.value` methods. In the Perl 6 version these are represented by a subclass of the `Pair` class, namely the `P5Pair`, which also provides a positional interface, so that the P5Pair can also be considered a 2-element list.
+Perl 6 has real `Pair` objects, which in the Perl 5 version are mimiced by blessed arrays that have a `.key` and `.value` methods. In the Perl 6 version these are represented by a subclass of the `List` class, namely the `P5Pair`, which also provides a .key and a .value method.
 
 Also note there are no special parsing rules with regards to blocks in Perl 6. So a comma is **always** required after having specified a block.
 
@@ -350,7 +350,7 @@ pairmap
 
 Similar to perl's `map` keyword, but interprets the given list as an even-sized list of pairs. It invokes the `BLOCK` multiple times, with `$a` and `$b` set to successive pairs of values from the `@kvlist`.
 
-Returns the concatenation of all the values returned by the `BLOCK` in list context.
+Returns all the values returned by the `BLOCK`.
 
     @result = pairmap -> $a, $b { "The key $a has value $b" }, @kvlist
 
@@ -406,6 +406,8 @@ AUTHOR
 ======
 
 Elizabeth Mattijsen <liz@wenzperl.nl>
+
+Source can be located at: https://github.com/lizmat/List-Util . Comments and Pull Requests are welcome.
 
 COPYRIGHT AND LICENSE
 =====================
