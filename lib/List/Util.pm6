@@ -1,5 +1,11 @@
 use v6.c;
 
+# helper class for mimicing Perl 5 "pair"s
+class P5Pair is List {
+    method key() { self[0] }
+    method value() is raw { self[1] }
+}
+
 class List::Util:ver<0.0.1> {
 
     our sub reduce(&block, *@args) is export {
@@ -78,29 +84,65 @@ class List::Util:ver<0.0.1> {
     our sub sum(*@args) is export { @args ?? @args.sum !! Nil }
     our sub sum0(*@args) is export { @args.sum }
 
-    my class P5Pair is Pair does Iterable {
-        method AT-POS($got) is raw {
-            $got
-              ?? $got == 1
-                ?? self.value
-                !! Failure.new(X::OutOfRange.new(:what<Index>,:$got,:range<0..1>))
-              !! self.key
-        }
-    }
     our sub pairs(*@args) is export {
         my @result;
         @result.push(P5Pair.new(@args.shift, @args ?? @args.shift !! Nil))
           while @args;
         @result.List
     }
-    our sub unpairs(*@args) is export { @args.map( { |(.key, .value) } ).List }
-    our sub pairkeys(*@args) is export { @args.map(*.key).List }
-    our sub pairvalues(*@args) is export { @args.map(*.value).List }
-    our sub pairgrep(&block, *@args) is export {
-        @args.grep( { block(.key,.value) } ).List
+    our sub unpairs(*@args) is export {
+        @args.map( { .elems == 1 ?? |($_[0],Nil) !! |($_[0],$_[1]) } ).List
     }
-    our sub pairmap(&block, *@args) is export {
-        @args.map( { block(.key,.value) } ).List
+    our sub pairkeys(*@args) is export {
+        my @result;
+        my int $i;
+        my int $elems = @args.elems;
+        while $i < $elems {
+            @result.push(@args[$i++]);
+            ++$i;
+        }
+        @result.List
+    }
+    our sub pairvalues(*@args is raw) is export {
+        my @result is default(Nil);
+        my int $i;
+        my int $elems = @args.elems;
+        while $i++ < $elems {
+            @result.push(@args[$i++]) if $i < $elems;
+        }
+        @result.List
+    }
+    our sub pairfirst(&block, *@args is raw) is export {
+        my int $i;
+        my int $elems = @args.elems;
+        while $i < $elems {
+            my \a := @args[$i++];
+            my \b := $i < $elems ?? @args[$i++] !! Nil;
+            return a,b if block(a,b);
+        }
+        ()
+    }
+    our sub pairgrep(&block, *@args is raw) is export {
+        my @result is default(Nil);
+        my int $i;
+        my int $elems = @args.elems;
+        while $i < $elems {
+            my \a := @args[$i++];
+            my \b := $i < $elems ?? @args[$i++] !! Nil;
+            @result.append(a,b) if block(a,b);
+        }
+        @result.List
+    }
+    our sub pairmap(&block, *@args is raw) is export {
+        my @result is default(Nil);
+        my int $i;
+        my int $elems = @args.elems;
+        while $i < $elems {
+            my \a := @args[$i++];
+            my \b := $i < $elems ?? @args[$i++] !! Nil;
+            @result.append(block(a,b));
+        }
+        @result.List
     }
 
     our sub shuffle(*@args) is export { @args.pick(*).List }
@@ -121,7 +163,7 @@ sub EXPORT(*@args) {
 
 =head1 NAME
 
-List::Util - Port of Perl 5's List::Util
+List::Util - Port of Perl 5's List::Util 1.49
 
 =head1 SYNOPSIS
 
@@ -163,9 +205,8 @@ which could be considered undef values, but with a type annotation.
 
 Perl 6 has real C<Pair> objects, which in the Perl 5 version are mimiced by
 blessed arrays that have a C<.key> and C<.value> methods.  In the Perl 6
-version these are represented by a subclass of the C<Pair> class, namely
-the C<P5Pair>, which also provides a positional interface, so that the P5Pair
-can also be considered a 2-element list.
+version these are represented by a subclass of the C<List> class, namely
+the C<P5Pair>, which also provides a .key and a .value method.
 
 Also note there are no special parsing rules with regards to blocks in Perl 6.
 So a comma is B<always> required after having specified a block.
@@ -531,8 +572,7 @@ Similar to perl's C<map> keyword, but interprets the given list as an
 even-sized list of pairs. It invokes the C<BLOCK> multiple times, with
 C<$a> and C<$b> set to successive pairs of values from the C<@kvlist>.
 
-Returns the concatenation of all the values returned by the C<BLOCK> in list
-context.
+Returns all the values returned by the C<BLOCK>.
 
     @result = pairmap -> $a, $b { "The key $a has value $b" }, @kvlist
 
