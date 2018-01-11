@@ -158,9 +158,18 @@ class List::Util:ver<0.0.2> {
 }
 
 sub EXPORT(*@args) {
-    @args
-      ?? Map.new( |(EXPORT::DEFAULT::{ @args.map: '&' ~ * }:p) )
-      !! Map.new
+
+    if @args {
+        my $imports := Map.new( |(EXPORT::DEFAULT::{ @args.map: '&' ~ * }:p) );
+        if $imports != @args {  
+            die "List::Util doesn't know how to export: "
+              ~ @args.grep( { !$imports{$_} } ).join(', ')
+        }
+        $imports
+    }
+    else {
+        Map.new
+    }
 }
 
 =begin pod
