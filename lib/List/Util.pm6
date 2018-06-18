@@ -6,16 +6,16 @@ class P5Pair is List {
     method value() is raw { self[1] }
 }
 
-module List::Util:ver<0.0.6>:auth<cpan:ELIZABETH> {
+module List::Util:ver<0.0.7>:auth<cpan:ELIZABETH> {
 
     our sub reduce(&block, *@args) is export(:SUPPORTED) {
-        if @args > 1 {
+        if @args {
             my $result = @args.shift;
             $result = block($result,@args.shift) while @args;
             $result
         }
         else {
-            @args ?? @args[0] !! Nil
+            Nil
         }
     }
     our sub any(&block, *@args --> Bool:D) is export(:SUPPORTED) {
@@ -39,47 +39,47 @@ module List::Util:ver<0.0.6>:auth<cpan:ELIZABETH> {
     }
 
     our sub max(*@args) is export(:SUPPORTED) {
-        if @args > 1 {
+        if @args {
             my $result = @args.shift;
             my $value;
             $result = $value if ($value := @args.shift) > $result while @args;
             $result
         }
         else {
-            @args ?? @args.shift !! Nil
+            Nil
         }
     }
     our sub maxstr(*@args) is export(:SUPPORTED) {
-        if @args > 1 {
+        if @args {
             my $result = @args.shift;
             my $value;
             $result = $value if ($value := @args.shift) gt $result while @args;
             $result
         }
         else {
-            @args ?? @args.shift !! Nil
+            Nil
         }
     }
     our sub min(*@args) is export(:SUPPORTED) {
-        if @args > 1 {
+        if @args {
             my $result = @args.shift;
             my $value;
             $result = $value if ($value := @args.shift) < $result while @args;
             $result
         }
         else {
-            @args ?? @args.shift !! Nil
+            Nil
         }
     }
     our sub minstr(*@args) is export(:SUPPORTED) {
-        if @args > 1 {
+        if @args {
             my $result = @args.shift;
             my $value;
             $result = $value if ($value := @args.shift) lt $result while @args;
             $result
         }
         else {
-            @args ?? @args.shift !! Nil
+            Nil
         }
     }
     our sub product(*@args) is export(:SUPPORTED) { [*] @args }
