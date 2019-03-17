@@ -1,6 +1,8 @@
 Revision history for List::Util
 
 {{$NEXT}}
+
+0.0.7  2019-03-17T14:17:00+01:00
     - Streamline some subs that should return Nil when nothing to do
 
 0.0.6  2018-04-25T19:20:00+02:00
