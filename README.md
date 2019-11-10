@@ -1,9 +1,7 @@
-[![Build Status](https://travis-ci.org/lizmat/List-Util.svg?branch=master)](https://travis-ci.org/lizmat/List-Util)
-
 NAME
 ====
 
-List::Util - Port of Perl 5's List::Util 1.49
+List::Util - Port of Perl's List::Util 1.49
 
 SYNOPSIS
 ========
@@ -28,28 +26,28 @@ By default `List::Util` does not export any subroutines.
 Porting Caveats
 ===============
 
-Perl 6 does not have the concept of `scalar` and `list` context. Usually, the effect of a scalar context can be achieved by prefixing `+` to the result, which would effectively return the number of elements in the result, which usually is the same as the scalar context of Perl 5 of these functions.
+Raku does not have the concept of `scalar` and `list` context. Usually, the effect of a scalar context can be achieved by prefixing `+` to the result, which would effectively return the number of elements in the result, which usually is the same as the scalar context of Raku of these functions.
 
-Perl 6 does not have a magic `$a` and `$b`. But they can be made to exist by specifying the correct signature to blocks, specifically "-> $a, $b". These have been used in all examples that needed them. Just using the signature auto-generating `$^a` and `$^b` would be more Perl 6 like. But since we want to keep the documentation as close to the original as possible, it was decided to specifically specify the "-> $a, $b" signatures.
+Raku does not have a magic `$a` and `$b`. But they can be made to exist by specifying the correct signature to blocks, specifically "-> $a, $b". These have been used in all examples that needed them. Just using the signature auto-generating `$^a` and `$^b` would be more Raku like. But since we want to keep the documentation as close to the original as possible, it was decided to specifically specify the "-> $a, $b" signatures.
 
-Perl 6 also doesn't have a single `undef` value, but instead has `Type Objects`, which could be considered undef values, but with a type annotation.
+Raku also doesn't have a single `undef` value, but instead has `Type Objects`, which could be considered undef values, but with a type annotation.
 
-Perl 6 has real `Pair` objects, which in the Perl 5 version are mimiced by blessed arrays that have a `.key` and `.value` methods. In the Perl 6 version these are represented by a subclass of the `List` class, namely the `P5Pair`, which also provides a .key and a .value method.
+Raku has real `Pair` objects, which in the Perl version are mimiced by blessed arrays that have a `.key` and `.value` methods. In the Raku version these are represented by a subclass of the `List` class, namely the `P5Pair`, which also provides a .key and a .value method.
 
-Also note there are no special parsing rules with regards to blocks in Perl 6. So a comma is **always** required after having specified a block.
+Also note there are no special parsing rules with regards to blocks in Raku. So a comma is **always** required after having specified a block.
 
-The following functions are actually built-ins in Perl 6.
+The following functions are actually built-ins in Raku.
 
     reduce any all none first max min sum uniq
 
-They mostly provide the same or similar semantics, but there may be subtle differences, so it was decided to not just use the built-ins. If these functions are imported from this library in a scope, they will used instead of the Perl 6 builtins. The easiest way to use both the functions of this library and the Perl 6 builtins in the same scope, is to use the method syntax for the Perl 6 versions.
+They mostly provide the same or similar semantics, but there may be subtle differences, so it was decided to not just use the built-ins. If these functions are imported from this library in a scope, they will used instead of the Raku builtins. The easiest way to use both the functions of this library and the raku builtins in the same scope, is to use the method syntax for the Raku versions.
 
-    {  # Note: imports in Perl 6 are always lexically scoped
+    {  # Note: imports in Raku are always lexically scoped
         use List::Util <max>;
-        say max 1..10;    # Ported Perl 5 version
-        say (1..10).max;  # Perl 6 version
+        say max 1..10;    # Ported Perl version
+        say (1..10).max;  # Raku version
     }
-    say max 1..10;  # Perl 6 version again
+    say max 1..10;  # Raku version again
 
 LIST-REDUCTION FUNCTIONS
 ========================
@@ -406,5 +404,5 @@ Copyright 2018-2019 Elizabeth Mattijsen
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 
-Re-imagined from the Perl 5 version as part of the CPAN Butterfly Plan. Perl 5 version originally developed by Graham Barr, subsequently maintained by Paul Evans.
+Re-imagined from the Perl version as part of the CPAN Butterfly Plan. Perl version originally developed by Graham Barr, subsequently maintained by Paul Evans.
 

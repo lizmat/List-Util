@@ -2,6 +2,9 @@ Revision history for List::Util
 
 {{$NEXT}}
 
+0.0.8  2019-11-10T13:06:52+01:00
+    - changed Perl 6 to Raku, and Perl 5 to Perl
+
 0.0.7  2019-03-17T14:17:00+01:00
     - Streamline some subs that should return Nil when nothing to do
 
