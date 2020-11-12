@@ -1,4 +1,4 @@
-use v6.c;
+use v6.*;
 
 use List::Util <pairgrep pairfirst pairmap pairs unpairs pairkeys pairvalues>;
 
@@ -106,4 +106,4 @@ is-deeply pairvalues( <one 1 two 2> ), <1 2>, 'pairvalues';
       'pairmap within pairmap';
 }
 
-# vim: ft=perl6 expandtab sw=4
+# vim: expandtab shiftwidth=4

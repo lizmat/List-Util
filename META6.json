@@ -1,23 +1,27 @@
 {
-  "auth" : "cpan:ELIZABETH",
-  "authors" : [
+  "auth": "cpan:ELIZABETH",
+  "authors": [
     "Elizabeth Mattijsen"
   ],
-  "build-depends" : [ ],
-  "depends" : [ ],
-  "description" : "Port of Perl's List::Util 1.49",
-  "license" : "Artistic-2.0",
-  "name" : "List::Util",
-  "perl" : "6.c",
-  "provides" : {
-    "List::Util" : "lib/List/Util.pm6"
+  "build-depends": [
+  ],
+  "depends": [
+  ],
+  "description": "Raku port of Perl's List::Util module 1.49",
+  "license": "Artistic-2.0",
+  "name": "List::Util",
+  "perl": "6.c",
+  "provides": {
+    "List::Util": "lib/List/Util.pm6"
   },
-  "resources" : [ ],
-  "source-url" : "https://github.com/lizmat/List-Util.git",
-  "tags" : [
+  "resources": [
+  ],
+  "source-url": "https://github.com/lizmat/List-Util.git",
+  "tags": [
     "UTILS",
     "CPAN5"
   ],
-  "test-depends" : [ ],
-  "version" : "0.0.8"
+  "test-depends": [
+  ],
+  "version": "0.0.9"
 }

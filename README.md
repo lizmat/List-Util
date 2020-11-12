@@ -1,7 +1,7 @@
 NAME
 ====
 
-List::Util - Port of Perl's List::Util 1.49
+Raku port of Perl's List::Util module 1.49
 
 SYNOPSIS
 ========
@@ -18,6 +18,8 @@ SYNOPSIS
 
 DESCRIPTION
 ===========
+
+This module tries to mimic the behaviour of Perl's `List::Util` module as closely as possible in the Raku Programming Language.
 
 `List::Util` contains a selection of subroutines that people have expressed would be nice to have in the perl 5 core, but the usage would not really be high enough to warrant the use of a keyword, and the size so small such that being individual extensions would be wasteful.
 
@@ -400,7 +402,7 @@ Source can be located at: https://github.com/lizmat/List-Util . Comments and Pul
 COPYRIGHT AND LICENSE
 =====================
 
-Copyright 2018-2019 Elizabeth Mattijsen
+Copyright 2018-2020 Elizabeth Mattijsen
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 

@@ -1,4 +1,4 @@
-use v6.c;
+use v6.*;
 
 use List::Util <uniqnum uniqstr uniq>;
 
@@ -110,4 +110,4 @@ is-deeply uniq(), (), 'uniq of empty list';
     is-deeply uniqnum( $0, $1, $2 ), (1,2), 'uniqnum handles Match objects';
 }
 
-# vim: ft=perl6 expandtab sw=4
+# vim: expandtab shiftwidth=4

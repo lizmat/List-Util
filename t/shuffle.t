@@ -1,4 +1,4 @@
-use v6.c;
+use v6.*;
 
 use List::Util <shuffle>;
 
@@ -23,4 +23,4 @@ isnt "@r[]", "@in[]", 'result different to args';
 my @s = sort @r;
 is "@in[]", "@s[]", 'values';
 
-# vim: ft=perl6 expandtab sw=4
+# vim: expandtab shiftwidth=4

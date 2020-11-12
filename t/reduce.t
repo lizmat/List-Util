@@ -1,4 +1,4 @@
-use v6.c;
+use v6.*;
 
 use List::Util <reduce min>;
 
@@ -60,4 +60,4 @@ package Foo {
     is List::Util::reduce( -> $a, $b { $a*$b }, 1..4 ), 24, 'other package';
 }
 
-# vim: ft=perl6 expandtab sw=4
+# vim: expandtab shiftwidth=4

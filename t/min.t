@@ -1,4 +1,4 @@
-use v6.c;
+use v6.*;
 
 use List::Util <min>;
 use Test;
@@ -23,4 +23,4 @@ my @b = sort @a;
 $v = min(@a);
 is $v, @b[0], '20-arg random order';
 
-# vim: ft=perl6 expandtab sw=4
+# vim: expandtab shiftwidth=4

@@ -1,4 +1,4 @@
-use v6.c;
+use v6.*;
 
 use List::Util <sum0>;
 
@@ -35,4 +35,4 @@ $v = sum0(
 );
 is $v, 933262154439505908438460981526562222507152912558, 'bigints';
 
-# vim: ft=perl6 expandtab sw=4
+# vim: expandtab shiftwidth=4

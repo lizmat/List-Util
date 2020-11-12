@@ -1,4 +1,4 @@
-use v6.c;
+use v6.*;
 
 # helper class for mimicing Perl 5 "pair"s
 class P5Pair is List {
@@ -6,7 +6,7 @@ class P5Pair is List {
     method value() is raw { self[1] }
 }
 
-module List::Util:ver<0.0.8>:auth<cpan:ELIZABETH> {
+module List::Util:ver<0.0.9>:auth<cpan:ELIZABETH> {
 
     our sub reduce(&block, *@args) is export(:SUPPORTED) {
         if @args {
@@ -178,7 +178,7 @@ sub EXPORT(*@args) {
 
 =head1 NAME
 
-List::Util - Port of Perl's List::Util 1.49
+Raku port of Perl's List::Util module 1.49
 
 =head1 SYNOPSIS
 
@@ -193,6 +193,9 @@ List::Util - Port of Perl's List::Util 1.49
     >;
 
 =head1 DESCRIPTION
+
+This module tries to mimic the behaviour of Perl's C<List::Util> module
+as closely as possible in the Raku Programming Language.
 
 C<List::Util> contains a selection of subroutines that people have expressed
 would be nice to have in the perl 5 core, but the usage would not really be
@@ -656,7 +659,7 @@ Pull Requests are welcome.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2018-2019 Elizabeth Mattijsen
+Copyright 2018-2020 Elizabeth Mattijsen
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 
@@ -665,3 +668,5 @@ version originally developed by Graham Barr, subsequently maintained by Paul
 Evans.
 
 =end pod
+
+# vim: expandtab shiftwidth=4

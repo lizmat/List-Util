@@ -1,4 +1,4 @@
-use v6.c;
+use v6.*;
 
 use List::Util <minstr>;
 use Test;
@@ -23,4 +23,4 @@ my @b = @a.pick(*);
 $v = minstr(@b);
 is $v, @a[0], 'random ordered';
 
-# vim: ft=perl6 expandtab sw=4
+# vim: expandtab shiftwidth=4

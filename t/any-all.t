@@ -1,4 +1,4 @@
-use v6.c;
+use v6.*;
 
 use List::Util <any all notall none>;
 use Test;
@@ -26,4 +26,4 @@ ok  (none { $_ == 1 }, 2, 3, 4), 'none true';
 ok !(none { $_ == 1 }, 1, 2, 3), 'none false';
 ok  (none { 1 }), 'none empty list';
 
-# vim: ft=perl6 expandtab sw=4
+# vim: expandtab shiftwidth=4

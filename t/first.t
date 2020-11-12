@@ -1,4 +1,4 @@
-use v6.c;
+use v6.*;
 
 use List::Util <first>;
 use Test;
@@ -41,4 +41,4 @@ package Foo {
     is List::Util::first({$_>4},1..4,24), 24, 'other package';
 }
 
-# vim: ft=perl6 expandtab sw=4
+# vim: expandtab shiftwidth=4
