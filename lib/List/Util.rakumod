@@ -6,7 +6,7 @@ class P5Pair is List {
     method value() is raw { self[1] }
 }
 
-module List::Util:ver<0.0.9>:auth<cpan:ELIZABETH> {
+module List::Util:ver<0.0.10>:auth<zef:lizmat> {
 
     our sub reduce(&block, *@args) is export(:SUPPORTED) {
         if @args {
@@ -652,14 +652,14 @@ L<Scalar::Util>, L<List::MoreUtils>
 
 =head1 AUTHOR
 
-Elizabeth Mattijsen <liz@wenzperl.nl>
+Elizabeth Mattijsen <liz@raku.rocks>
 
 Source can be located at: https://github.com/lizmat/List-Util . Comments and
 Pull Requests are welcome.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2018-2020 Elizabeth Mattijsen
+Copyright 2018, 2019, 2020, 2021 Elizabeth Mattijsen
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 
